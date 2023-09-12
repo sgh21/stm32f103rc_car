@@ -573,11 +573,29 @@ void TheLast(speed1,speed2){
 	GPIO_ResetBits(GPIOA,GPIO_Pin_5);
 	GPIO_ResetBits(GPIOC,GPIO_Pin_3);
 	if(AVOID_IO == 1)//红外读取到没有障碍物
-	{
-	 trace_begin(speed1,speed2);
+	{ float distance;
+	  trace_begin(speed1,speed2);
 		delay_ms(10);
 		MotorPWM_Stopall();
 		delay_ms(10);
+		set_angle(61.0);
+		distance=calculate_distance();
+		if(distance<15){
+			delay_ms(1000);
+			set_angle(-68.0);
+			delay_ms(1000);
+			distance=calculate_distance();
+			delay_ms(50);
+			if(distance<15){
+				Motor_Stop(1000);
+				delay_ms(1000);
+				delay_ms(1000);
+			}
+			set_angle(0.0);
+			MotorPWM_Forward(50);
+			delay_ms(1000);
+			set_angle(61.0);
+		}
 	}
 	if(AVOID_IO == 0)//红外读取到有障碍物
 	{

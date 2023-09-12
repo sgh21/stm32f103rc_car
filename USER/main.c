@@ -60,7 +60,7 @@ int main(void)
       ControlMotor(4);  
     }
 		else if (command=='C'){
-			TheLast();
+			TheLast(100,5);
 		}
   }
 }
